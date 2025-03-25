@@ -12,7 +12,7 @@ def read_projects(projects_database : Session) -> list[dict]:
 
     for one_project_from_database in projects_from_the_database:
 
-        project = one_project_from_database.dict()
+        project = one_project_from_database.model_dump()
 
         projects.append(project)
 
@@ -29,4 +29,4 @@ def read_project_by_id(project_id: int, projects_database : Session):
 
         return {}
     
-    return project_from_the_database.dict()
+    return project_from_the_database.model_dump()
