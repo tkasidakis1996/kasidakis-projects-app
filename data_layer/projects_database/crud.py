@@ -1,24 +1,32 @@
-from sqlmodel import select
+from sqlmodel import select, Session
 
 from data_layer.projects_database.tables import Project
 
-def read_projects(session):
+def read_projects(projects_database : Session) -> list[dict]:
     
     statement = select(Project)
     
-    projects = session.exec(statement).all()
-    
+    projects_from_the_database = projects_database.exec(statement).all()
+
+    projects : list = []
+
+    for one_project_from_database in projects_from_the_database:
+
+        project = one_project_from_database.dict()
+
+        projects.append(project)
+
     return projects
 
-# Function to Read a Project by ID
-def read_project_by_id(project_id: int, session):
+
+def read_project_by_id(project_id: int, projects_database : Session):
     
     statement = select(Project).where(Project.id == project_id)
     
-    project = session.exec(statement).first()
+    project_from_the_database = projects_database.exec(statement).first()
     
-    if not project:
-        
-        return None
+    if not project_from_the_database:
+
+        return {}
     
-    return project
+    return project_from_the_database.dict()
