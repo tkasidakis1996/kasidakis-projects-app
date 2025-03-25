@@ -1,39 +1,33 @@
-from flask import jsonify, request
+from flask import jsonify
 
-from flask_smorest import Blueprint, abort
+from flask_smorest import Blueprint
 
 from business_logic.projects_service import ProjectsService
 
-from data_layer
+from data_layer.projects_database.projects_database import connect_with_the_database as connection_with_the_projects_database
 
 
 projects_router = Blueprint('projects', __name__, description='Operations on Kasidakis projects')
 
 @projects_router.route('/projects', methods=['GET'])
-@projects_router.response(200, ProjectSchema(many=True))
 def get_projects():
 
-    try:
-        # obtain here the connection with the databse
-        
-        projects_service : ProjectsService = ProjectsService()
+    projects_database = connection_with_the_projects_database()
+    
+    projects_service : ProjectsService = ProjectsService()
 
-        projects = projects_service.get_projects(projects_database)
+    projects = projects_service.get_projects(projects_database)
 
-    except:
-        pass
-    finally:
-        # close connection here
-        # and return the response here
+    return jsonify(projects, status=200, mimetype='application/json')
 
-
-# Endpoint to get a single project by ID
-@blp.route('/projects/<int:project_id>', methods=['GET'])
-@blp.response(200, ProjectSchema)
-@blp.response(404, description="Project not found")
+@projects_router.route('/projects/<int:project_id>', methods=['GET'])
 def get_project(project_id):
-    """Get a specific project by ID"""
-    project = next((proj for proj in projects if proj['id'] == project_id), None)
-    if project:
-        return project
-    abort(404, message="Project not found")
+
+    projects_database = connection_with_the_projects_database()
+    
+    projects_service : ProjectsService = ProjectsService()
+
+    specific_project = projects_service.get_projects(project_id, projects_database)
+
+    return jsonify(specific_project, status=200, mimetype='application/json')
+
