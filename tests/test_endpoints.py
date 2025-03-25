@@ -58,9 +58,9 @@ def test_get_project_by_id_not_found(mock_connection_with_the_projects_database)
 
 
 @patch("api.projects.connection_with_the_projects_database")
-def test_get_projects_connection_error(mock_connection):
+def test_get_projects_connection_error(mock_connection_with_the_projects_database):
     
-    mock_connection.side_effect = Exception("Database down")
+    mock_connection_with_the_projects_database.side_effect = Exception("Database down")
 
     client = app.test_client()
     
