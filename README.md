@@ -28,6 +28,10 @@ This repository contains a modular, testable, and Dockerized Python application 
 ├── Dockerfile                 # Docker container definition
 └── README.md
 
+```
+
+---
+
 ## 🐳 How to Run the API
 
 1. **Clone the repository**:
@@ -41,9 +45,36 @@ This repository contains a modular, testable, and Dockerized Python application 
    ```bash
    docker build -t kasidakis-projects-api .
 
-3. **Run the application (default command):
+3. **Run the application (default command):**
 
    ```bash
    docker run -p 5000:5000 kasidakis-projects-api
+
+---
+
+## 🧪 How to Run Tests
+
+To run the full test suite using the Docker container:
+
+```bash
+docker run kasidakis-projects-api pytest -v tests
+```
+
+## 📘 Swagger Documentation
+
+The Kasidakis Projects API comes with interactive **Swagger UI** powered by `flask-smorest`. You can use it to explore, test, and understand all available endpoints without writing a single line of code.
+
+### 🔗 Accessing Swagger
+
+Once the API is up and running, open your browser and navigate to: http://localhost:5000/docs
+
+This will load the Swagger UI, where you can:
+
+- 📄 View available endpoints
+- 🔄 Execute live GET requests
+- 🔧 Inspect request/response models
+- ✅ Test inputs and check validation rules
+
+
 
 
